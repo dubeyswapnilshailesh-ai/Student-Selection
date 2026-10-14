@@ -1,0 +1,215 @@
+; ============================================================
+; STUDENT RESULT DECISION SYSTEM - GNU Sim8085
+; ============================================================
+; Input : 6 subject marks stored in memory (each 0-100)
+; Output: Total, Percentage, Pass/Fail, Grade
+; Concepts: CMP, JNC, JC, JZ, JNZ, Registers A,B,C,D,E,H,L, Flags Z & CY
+; ============================================================
+
+        ORG 2000H
+
+; -------- Subject marks storage (memory) --------
+; Subjects: MATH, SCI, ENG, COMP, PHY, CHEM
+MARKS:  DB  85, 78, 92, 88, 45, 73    ; sample data
+
+; -------- Constants --------
+PASS_MARK   EQU 33       ; minimum passing marks per subject
+NUM_SUBJECTS EQU 06      ; total subjects
+
+; ============================================================
+; MAIN PROGRAM
+; ============================================================
+START:  LXI H, MARKS        ; HL -> first subject
+        MVI C, NUM_SUBJECTS ; C = counter
+        MVI B, 00H          ; B = total marks (sum)
+        MVI D, 00H          ; D = failed subject count
+        MVI E, 00H          ; E = highest mark
+
+; -------- Loop: sum + detect fail + find highest --------
+LOOP:   MOV A, M            ; A = current subject mark
+        ADD B               ; A = A + total
+        MOV B, A            ; B = new total
+        MOV A, M            ; reload current mark
+        CMP E               ; compare with highest
+        JC  SKIP_HIGH       ; if A < E, skip
+        MOV E, A            ; else E = A (new highest)
+SKIP_HIGH:
+        MOV A, M
+        CPI PASS_MARK       ; compare with passing marks (33)
+        JNC NEXT_SUB        ; if A >= 33, no fail
+        INR D               ; else increment failed count
+NEXT_SUB:
+        INX H               ; next subject
+        DCR C
+        JNZ LOOP            ; repeat for all subjects
+
+; ============================================================
+; CHECK OVERALL PASS / FAIL
+; ============================================================
+        MOV A, D
+        CPI 00H             ; any failed subject?
+        JZ  PASSED          ; Z=1 means no fails
+        JMP FAILED
+
+; -------- PASS branch --------
+PASSED: MVI A, 01H          ; 01H = PASS flag
+        STA RESULT_STATUS
+        JMP CALC_PERCENT
+
+; -------- FAIL branch --------
+FAILED: MVI A, 00H          ; 00H = FAIL flag
+        STA RESULT_STATUS
+        JMP CALC_PERCENT
+
+; ============================================================
+; CALCULATE PERCENTAGE = (Total * 100) / 600
+; ============================================================
+CALC_PERCENT:
+        ; B = total, need (B * 100) / 600
+        MOV A, B
+        MVI H, 00H
+        MVI L, 64H          ; HL = 100
+        CALL MULT_A_HL      ; HL = total * 100
+        ; Now divide HL by 600
+        LXI D, 0258H        ; DE = 600 (0x0258)
+        CALL DIV_HL_DE      ; HL = quotient (percentage)
+        MOV A, L
+        STA PERCENTAGE      ; store percentage
+
+; ============================================================
+; GRADE DECISION based on percentage
+; ============================================================
+; Grade thresholds:
+;   >= 90 -> A+
+;   >= 80 -> A
+;   >= 70 -> B
+;   >= 60 -> C
+;   >= 50 -> D
+;   >= 33 -> E
+;   else  -> F
+; ============================================================
+GRADE:  LDA PERCENTAGE
+        CPI 90
+        JNC G_APLUS
+        CPI 80
+        JNC G_A
+        CPI 70
+        JNC G_B
+        CPI 60
+        JNC G_C
+        CPI 50
+        JNC G_D
+        CPI 33
+        JNC G_E
+        JMP G_F
+
+G_APLUS: MVI A, 0AH         ; 0AH = A+
+         STA GRADE_CODE
+         JMP SHOW_RESULT
+G_A:     MVI A, 09H
+         STA GRADE_CODE
+         JMP SHOW_RESULT
+G_B:     MVI A, 08H
+         STA GRADE_CODE
+         JMP SHOW_RESULT
+G_C:     MVI A, 07H
+         STA GRADE_CODE
+         JMP SHOW_RESULT
+G_D:     MVI A, 06H
+         STA GRADE_CODE
+         JMP SHOW_RESULT
+G_E:     MVI A, 05H
+         STA GRADE_CODE
+         JMP SHOW_RESULT
+G_F:     MVI A, 00H
+         STA GRADE_CODE
+
+; ============================================================
+; OUTPUT / DISPLAY RESULT
+; ============================================================
+SHOW_RESULT:
+        LDA RESULT_STATUS   ; 01 = PASS, 00 = FAIL
+        STA 3000H           ; output port: status
+        LDA PERCENTAGE
+        STA 3001H           ; output port: percentage
+        LDA GRADE_CODE
+        STA 3002H           ; output port: grade code
+        MOV A, D
+        STA 3003H           ; output port: failed subject count
+        MOV A, B
+        STA 3004H           ; output port: total marks
+        HLT
+
+; ============================================================
+; SUBROUTINES
+; ============================================================
+
+; ------------------------------------------------------------
+; MULT_A_HL : HL = A * HL  (A is 8-bit, HL is 16-bit)
+; Uses: A, B, C, D, E, HL
+; ------------------------------------------------------------
+MULT_A_HL:
+        PUSH B
+        PUSH D
+        MOV B, A            ; B = multiplier (A)
+        LXI D, 0000H        ; DE = product
+M_LOOP: MOV A, B
+        ORA A               ; check if B == 0
+        JZ  M_DONE
+        MOV A, E
+        ADD L               ; E = E + L
+        MOV E, A
+        MOV A, D
+        ADC H               ; D = D + H + carry
+        MOV D, A
+        DCR B
+        JMP M_LOOP
+M_DONE: XCHG                ; HL = product
+        POP D
+        POP B
+        RET
+
+; ------------------------------------------------------------
+; DIV_HL_DE : HL = HL / DE  (unsigned integer division)
+; Result in HL (quotient), remainder discarded
+; Uses: A, B, HL, DE
+; ------------------------------------------------------------
+DIV_HL_DE:
+        PUSH B
+        LXI B, 0000H        ; BC = quotient = 0
+DIV_LOOP:
+        MOV A, H
+        ORA L               ; is HL == 0?
+        JZ  DIV_DONE
+        ; Compare HL with DE : if HL < DE, done
+        MOV A, H
+        CMP D
+        JC  DIV_DONE        ; H < D -> HL < DE
+        JNZ DIV_SUB         ; H > D -> subtract
+        MOV A, L
+        CMP E
+        JC  DIV_DONE        ; L < E -> HL < DE
+DIV_SUB:
+        MOV A, L
+        SUB E
+        MOV L, A
+        MOV A, H
+        SBB D               ; H = H - D - borrow
+        MOV H, A
+        INX B               ; quotient++
+        JMP DIV_LOOP
+DIV_DONE:
+        MOV H, B
+        MOV L, C            ; HL = quotient
+        POP B
+        RET
+
+; ============================================================
+; DATA SECTION
+; ============================================================
+        ORG 2500H
+RESULT_STATUS:  DB  00H     ; 01 = PASS, 00 = FAIL
+PERCENTAGE:     DB  00H     ; 0-100
+GRADE_CODE:     DB  00H     ; 0A=A+, 09=A, 08=B, 07=C, 06=D, 05=E, 00=F
+
+        END

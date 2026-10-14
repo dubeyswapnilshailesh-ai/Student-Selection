@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sim8085 · Student Result Decision System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main-card">
+        <!-- ============ HEADER ============ -->
+        <header class="header">
+            <div class="title-section">
+                <h1>
+                    <i class="fas fa-microchip"></i> Result Decision System
+                </h1>
+                <p class="sub">
+                    <i class="fas fa-code-branch"></i> GNU Sim8085 · CMP, Jumps, Registers &amp; Flags
+                </p>
+            </div>
+            <div class="chip-8085">
+                <i class="fas fa-microchip"></i> 8085 Sim
+            </div>
+        </header>
+
+        <!-- ============ DASHBOARD ============ -->
+        <div class="dashboard">
+
+            <!-- ---------- LEFT: INPUT PANEL ---------- -->
+            <section class="input-panel">
+                <div class="section-label">
+                    <i class="fas fa-pen"></i> Student &amp; Marks
+                </div>
+
+                <div class="input-group">
+                    <label for="studentName"><i class="fas fa-user-graduate"></i> Student Name</label>
+                    <input type="text" id="studentName" placeholder="e.g. Rohan Kumar" value="Rohan Kumar">
+                </div>
+
+                <div class="input-group">
+                    <label for="rollNumber"><i class="fas fa-id-card"></i> Roll Number</label>
+                    <input type="text" id="rollNumber" placeholder="e.g. 2024CS101" value="2024CS101">
+                </div>
+
+                <div class="section-label mt-lg">
+                    <i class="fas fa-book-open"></i> Subject Marks (out of 100)
+                </div>
+
+                <div class="marks-grid">
+                    <div class="input-group">
+                        <label for="mathMarks"><i class="fas fa-calculator"></i> Mathematics</label>
+                        <input type="number" id="mathMarks" min="0" max="100" value="85" placeholder="0-100">
+                    </div>
+                    <div class="input-group">
+                        <label for="sciMarks"><i class="fas fa-flask"></i> Science</label>
+                        <input type="number" id="sciMarks" min="0" max="100" value="78" placeholder="0-100">
+                    </div>
+                    <div class="input-group">
+                        <label for="engMarks"><i class="fas fa-language"></i> English</label>
+                        <input type="number" id="engMarks" min="0" max="100" value="92" placeholder="0-100">
+                    </div>
+                    <div class="input-group">
+                        <label for="compMarks"><i class="fas fa-laptop-code"></i> Computer</label>
+                        <input type="number" id="compMarks" min="0" max="100" value="88" placeholder="0-100">
+                    </div>
+                    <div class="input-group">
+                        <label for="phyMarks"><i class="fas fa-atom"></i> Physics</label>
+                        <input type="number" id="phyMarks" min="0" max="100" value="45" placeholder="0-100">
+                    </div>
+                    <div class="input-group">
+                        <label for="chemMarks"><i class="fas fa-dna"></i> Chemistry</label>
+                        <input type="number" id="chemMarks" min="0" max="100" value="73" placeholder="0-100">
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button class="btn btn-primary" id="calcBtn">
+                        <i class="fas fa-microchip"></i> Simulate 8085
+                    </button>
+                    <button class="btn btn-secondary" id="sampleBtn">
+                        <i class="fas fa-database"></i> Sample Data
+                    </button>
+                    <button class="btn btn-secondary" id="resetBtn">
+                        <i class="fas fa-undo-alt"></i> Reset
+                    </button>
+                </div>
+            </section>
+
+            <!-- ---------- RIGHT: RESULT PANEL ---------- -->
+            <section class="result-panel">
+
+                <!-- 8085 Register Card -->
+                <div class="card">
+                    <div class="card-title">
+                        <i class="fas fa-registered"></i> 8085 Registers &amp; Flags
+                    </div>
+                    <div class="register-grid">
+                        <div class="reg-box">
+                            <div class="reg-label">Register A</div>
+                            <div class="reg-value" id="regA">85</div>
+                        </div>
+                        <div class="reg-box">
+                            <div class="reg-label">Register B</div>
+                            <div class="reg-value" id="regB">45</div>
+                        </div>
+                    </div>
+                    <div class="flags-row">
+                        <div class="flag-item">
+                            <span class="flag-label">Z</span>
+                            <span class="flag-value" id="zeroFlag">0</span>
+                        </div>
+                        <div class="flag-item">
+                            <span class="flag-label">CY</span>
+                            <span class="flag-value" id="carryFlag">0</span>
+                        </div>
+                    </div>
+                    <div class="cmp-note">
+                        <i class="fas fa-code"></i> CMP A, B → flags updated (Z=1 if A==B, CY=1 if A&lt;B)
+                    </div>
+                </div>
+
+                <!-- Result Summary Card -->
+                <div class="card">
+                    <div class="card-title">
+                        <i class="fas fa-poll"></i> Result Summary
+                    </div>
+
+                    <div class="student-display" id="studentDisplay">
+                        <span><i class="fas fa-user"></i> —</span>
+                        <span><i class="fas fa-hashtag"></i> —</span>
+                    </div>
+
+                    <div class="summary-grid">
+                        <div class="stat-item">
+                            <div class="stat-label">Total Marks</div>
+                            <div class="stat-value" id="totalMarks">0 / 600</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Percentage</div>
+                            <div class="stat-value" id="percentage">0.0%</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Status</div>
+                            <div class="stat-value" id="passFail">
+                                <span class="badge">—</span>
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Grade</div>
+                            <div class="stat-value" id="gradeDisplay">
+                                <span class="badge">—</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="subject-section">
+                        <div class="subject-heading">
+                            <i class="fas fa-list-ul"></i> Subject-wise Result
+                        </div>
+                        <div class="subject-list" id="subjectPills"></div>
+                        <div id="failedSubjectsContainer"></div>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

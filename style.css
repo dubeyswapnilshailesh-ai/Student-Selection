@@ -1,0 +1,605 @@
+/* =========================================================
+   GLOBAL
+   ========================================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+    background: linear-gradient(145deg, #0b1a2e 0%, #1b2f44 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+/* =========================================================
+   MAIN CARD
+   ========================================================= */
+.main-card {
+    max-width: 1350px;
+    width: 100%;
+    background: rgba(18, 30, 41, 0.9);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 3rem 3rem 2rem 2rem;
+    box-shadow: 0 25px 50px -8px rgba(0, 0, 0, 0.8),
+                0 0 0 1px rgba(0, 255, 255, 0.1) inset;
+    padding: 2rem;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+.header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    gap: 1rem;
+}
+
+.title-section h1 {
+    font-size: 1.9rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #a0e9ff, #4df0ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.title-section h1 i {
+    color: #4df0ff;
+    font-size: 2rem;
+    filter: drop-shadow(0 0 8px #00d0ff);
+}
+
+.title-section .sub {
+    color: #9ab8d9;
+    font-size: 0.9rem;
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+}
+
+.title-section .sub i {
+    color: #36c5f0;
+}
+
+.chip-8085 {
+    background: #0e1e2b;
+    border: 1px solid #2c5f7a;
+    color: #7cd6ff;
+    padding: 6px 14px;
+    border-radius: 40px;
+    font-family: 'Courier New', monospace;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 0 10px rgba(0, 180, 255, 0.2);
+}
+
+/* =========================================================
+   DASHBOARD LAYOUT
+   ========================================================= */
+.dashboard {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+/* =========================================================
+   INPUT PANEL
+   ========================================================= */
+.input-panel {
+    background: rgba(8, 20, 30, 0.7);
+    border-radius: 2rem;
+    padding: 1.8rem;
+    border: 1px solid #1e4152;
+    box-shadow: 0 10px 20px -8px black,
+                0 0 0 1px rgba(0, 255, 255, 0.05) inset;
+}
+
+.section-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #b0e4ff;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.2px;
+    border-bottom: 1px dashed #2e5772;
+    padding-bottom: 12px;
+}
+
+.section-label i {
+    color: #2fd0ff;
+    font-size: 1.3rem;
+}
+
+.mt-lg {
+    margin-top: 1.8rem;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 1.2rem;
+}
+
+.input-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: #b6d9f0;
+    letter-spacing: 0.2px;
+}
+
+.input-group label i {
+    color: #3bb4e0;
+    width: 16px;
+    font-size: 0.9rem;
+}
+
+.input-group input {
+    background: #0d1c28;
+    border: 1px solid #264d64;
+    border-radius: 16px;
+    padding: 14px 18px;
+    font-size: 1rem;
+    color: #e5f3ff;
+    outline: none;
+    transition: all 0.2s;
+    font-weight: 500;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) inset;
+}
+
+.input-group input:focus {
+    border-color: #17c3ff;
+    box-shadow: 0 0 0 3px rgba(23, 195, 255, 0.25),
+                0 2px 6px black inset;
+}
+
+.input-group input::placeholder {
+    color: #5b7e96;
+    font-weight: 400;
+}
+
+/* Marks grid */
+.marks-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+.btn-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 1.8rem;
+}
+
+.btn {
+    flex: 1 1 auto;
+    padding: 14px 20px;
+    border-radius: 40px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.15s ease;
+    letter-spacing: 0.3px;
+    background: #172d3b;
+    color: #c3e2f5;
+    border: 1px solid #2a556b;
+    box-shadow: 0 8px 16px -8px black;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #0088b3, #00a6d9);
+    border: 1px solid #26c2ff;
+    color: white;
+    box-shadow: 0 8px 18px -6px #006688,
+                0 0 0 1px rgba(0, 255, 255, 0.3) inset;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #0099cc, #00b9f0);
+    box-shadow: 0 10px 22px -6px #0077aa,
+                0 0 0 1px cyan inset;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: #1a3242;
+    border: 1px solid #3b6d88;
+}
+
+.btn-secondary:hover {
+    background: #214255;
+    border-color: #50a0c0;
+    transform: translateY(-2px);
+}
+
+.btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 6px black;
+}
+
+/* =========================================================
+   RESULT PANEL
+   ========================================================= */
+.result-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.card {
+    background: rgba(8, 20, 30, 0.75);
+    border-radius: 2rem;
+    padding: 1.6rem 1.8rem;
+    border: 1px solid #1d4053;
+    box-shadow: 0 10px 20px -8px black,
+                0 0 0 1px rgba(0, 255, 255, 0.05) inset;
+    backdrop-filter: blur(4px);
+}
+
+.card-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+    color: #b1e2ff;
+    font-size: 1rem;
+    margin-bottom: 1.2rem;
+    letter-spacing: 0.3px;
+    border-bottom: 1px solid #1f4457;
+    padding-bottom: 10px;
+}
+
+.card-title i {
+    color: #2fd0ff;
+    font-size: 1.2rem;
+}
+
+/* =========================================================
+   8085 REGISTERS
+   ========================================================= */
+.register-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.reg-box {
+    background: #0b1923;
+    border-radius: 20px;
+    padding: 12px 16px;
+    border: 1px solid #27526b;
+    box-shadow: 0 4px 0 #0a151e,
+                0 0 0 1px rgba(0, 200, 255, 0.1);
+    text-align: center;
+}
+
+.reg-label {
+    font-size: 0.8rem;
+    color: #6c9eb8;
+    letter-spacing: 1px;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.reg-value {
+    font-family: 'Courier New', monospace;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #7ae9ff;
+    line-height: 1.2;
+    text-shadow: 0 0 15px rgba(0, 200, 255, 0.5);
+    background: #041018;
+    border-radius: 14px;
+    padding: 4px 0;
+    border: 1px solid #1c4152;
+    letter-spacing: 2px;
+}
+
+/* Flags */
+.flags-row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 12px;
+}
+
+.flag-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #0b1d29;
+    border-radius: 30px;
+    padding: 8px 22px;
+    border: 1px solid #2b5970;
+    box-shadow: 0 0 0 1px rgba(0, 200, 255, 0.1);
+}
+
+.flag-label {
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    color: #8fc9e6;
+    letter-spacing: 1px;
+}
+
+.flag-value {
+    font-family: 'Courier New', monospace;
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: #1be0ff;
+    background: #00121e;
+    padding: 2px 12px;
+    border-radius: 30px;
+    border: 1px solid #157a9b;
+    min-width: 60px;
+    text-align: center;
+    transition: all 0.25s;
+}
+
+.flag-value.zero-active {
+    background: #00a6c0;
+    color: #000;
+    border-color: white;
+    box-shadow: 0 0 15px #00d4ff;
+}
+
+.flag-value.carry-active {
+    background: #f0b323;
+    color: #000;
+    border-color: #ffd966;
+    box-shadow: 0 0 15px #ffb700;
+}
+
+.cmp-note {
+    margin-top: 14px;
+    font-size: 0.78rem;
+    color: #5792af;
+    text-align: center;
+    border-top: 1px solid #1d4053;
+    padding-top: 12px;
+}
+
+/* =========================================================
+   RESULT SUMMARY
+   ========================================================= */
+.student-display {
+    font-weight: 500;
+    color: #b8e2ff;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    background: #0b1d28;
+    padding: 10px 14px;
+    border-radius: 50px;
+    margin-bottom: 1.2rem;
+    gap: 8px;
+}
+
+.student-display span i {
+    margin-right: 6px;
+    color: #36c5f0;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.stat-item {
+    background: #0b1d28;
+    border-radius: 16px;
+    padding: 12px 16px;
+    border: 1px solid #234f64;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #72a9c7;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #c6edff;
+    margin-top: 4px;
+    line-height: 1.2;
+}
+
+/* Badges */
+.badge {
+    display: inline-block;
+    padding: 6px 18px;
+    border-radius: 40px;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.3px;
+    background: #153e4e;
+    color: #9cdbff;
+    border: 1px solid #2c7899;
+}
+
+.badge.pass {
+    background: #0e4b3c;
+    color: #a0ffcf;
+    border-color: #24b380;
+}
+
+.badge.fail {
+    background: #542a2a;
+    color: #ffb0b0;
+    border-color: #c04848;
+}
+
+.badge.grade-a {
+    background: #1a5f7a;
+    color: #c2f0ff;
+    border-color: #3ac8ff;
+}
+
+/* =========================================================
+   SUBJECT PILLS
+   ========================================================= */
+.subject-section {
+    margin-top: 1.6rem;
+}
+
+.subject-heading {
+    color: #aad4f0;
+    font-weight: 500;
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+}
+
+.subject-heading i {
+    color: #36c5f0;
+    margin-right: 6px;
+}
+
+.subject-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.subject-pill {
+    background: #0e2633;
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    border: 1px solid #22637f;
+    color: #b2e3ff;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+
+.subject-pill i {
+    font-size: 0.75rem;
+    color: #46c2ff;
+}
+
+.subject-pill.fail-pill {
+    border-color: #b33b3b;
+    background: #2a1515;
+    color: #ffc2c2;
+}
+
+.subject-pill.fail-pill i {
+    color: #ff7b7b;
+}
+
+/* Failed subjects banner */
+.failed-subjects {
+    color: #ff9e9e;
+    font-weight: 500;
+    font-size: 0.95rem;
+    background: #2a1a1a;
+    border-radius: 14px;
+    padding: 10px 14px;
+    border-left: 4px solid #ff6a6a;
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.failed-subjects i {
+    color: #ff7070;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 900px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+        gap: 1.8rem;
+    }
+    .main-card {
+        padding: 1.5rem;
+        border-radius: 2rem;
+    }
+    .title-section h1 {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 500px) {
+    .marks-grid {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+    }
+    .input-panel {
+        padding: 1.3rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .register-grid {
+        grid-template-columns: 1fr;
+    }
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+    .btn-row {
+        flex-direction: column;
+    }
+    .main-card {
+        border-radius: 1.8rem;
+        padding: 1rem;
+    }
+    .card {
+        padding: 1.2rem;
+    }
+    .flag-item {
+        padding: 6px 14px;
+    }
+    .reg-value {
+        font-size: 2rem;
+    }
+}
